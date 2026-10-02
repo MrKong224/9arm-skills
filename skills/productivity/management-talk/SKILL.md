@@ -113,7 +113,7 @@ You're going to *say* this, not show it.
 
 The input is one of:
 
-1. **A JIRA ticket key** (e.g. `JIRA-12345`) → fetch via `GET /rest/api/3/issue/<KEY>?fields=summary,status,priority,assignee,comment` plus any custom fields your instance uses for technical evaluation — usually the cleanest source of current state. The most recent substantive comment is what to reframe; don't dump the full thread.
+1. **A JIRA ticket key** (e.g. `JIRA-12345`) → read it with the Atlassian MCP read tools (`getJiraIssue` + comments), never raw REST with a token; include any custom fields your instance uses for technical evaluation — usually the cleanest source of current state. The most recent substantive comment is what to reframe; don't dump the full thread.
 2. **Pasted technical text** → use directly.
 3. **The current conversation** → if you (or the user) just produced engineering content and the user now says *"now in slack"* / *"now for the VP,"* reuse what's in context.
 
@@ -125,8 +125,8 @@ If the source is ambiguous, ask one question and stop.
 2. **Produce the draft** as a single chat block, formatted as the channel would render it.
 3. **Ask where it goes:**
    - Default: print-only — the user copies it.
-   - JIRA back-post: only if the user explicitly says so. Show the exact ADF payload, wait for explicit *"post it"* / *"go ahead"* / *"yes,"* then `POST /rest/api/3/issue/<KEY>/comment`.
-   - **Never post to Slack, email, or any non-JIRA channel from this skill.** Hand the draft to the user; they post it.
+   - JIRA back-post: never from this skill — Kong's settings deny Jira writes. Hand the draft to the user; they post it.
+   - **Never post to Slack, email, or any other channel from this skill.** Hand the draft to the user; they post it.
 4. **One iteration is normal, three is a smell.** If the user is on the third revision, ask what specific framing/audience assumption you're missing — don't keep tweaking blindly.
 
 ## Worked example — same bug, three channels
@@ -168,6 +168,6 @@ What changed between channels: same diagnosis, same owner, same next step. JIRA 
 - **Never invent facts** to make the rewrite cleaner. If the engineering source says "root cause unknown," the rewrite says "root cause unknown" — do not promote a speculation to a finding for narrative tidiness.
 - **Never strip a JIRA key, PR number, or customer/workload name** during de-jargoning. They're the cross-reference bridge — losing them breaks tracking.
 - **Never invent owners.** If the source doesn't name one, ask the user — don't guess from `git blame` or recent commits.
-- **Get sign-off before posting to JIRA.** Reuse the jira-check approval flow. Print-only output needs no approval.
-- **Never post to Slack, email, or any non-JIRA channel from this skill.** Hand the draft to the user; they post it.
+- **Never post to JIRA yourself** (Kong's settings deny Jira writes). Print-only output needs no approval.
+- **Never post to Slack, email, or any other channel from this skill.** Hand the draft to the user; they post it.
 - **Stay out of advocacy.** This skill produces a status update, not a recommendation. If the user wants a recommendation memo, confirm before reframing.

@@ -106,9 +106,9 @@ This is engineer-to-engineer. Different from `management-talk`:
 ## Output flow
 
 1. **Confirm all four required inputs are satisfied.** If any are missing, list them and stop. Do not draft.
-2. **Confirm where it goes** (default: JIRA comment on the source ticket). Other valid destinations: PR description, `docs/postmortems/<ticket>.md`, internal wiki page. The shape is the same — only the wrapping changes.
+2. **Confirm where it goes** (default: print in chat — the user posts it). Other destinations: `docs/postmortems/<ticket>.md`, PR description, or a Linear comment on a personal-project issue. The shape is the same — only the wrapping changes.
 3. **Produce the draft** as a single chat block.
-4. **Sign-off before posting.** If posting back to JIRA, show the exact ADF payload, wait for explicit *"post it"* / *"go ahead"* / *"yes,"* then `POST /rest/api/3/issue/<KEY>/comment`. Print-only output needs no approval.
+4. **Never write to JIRA yourself** — not via REST, not via the Atlassian MCP (Kong's settings deny Jira writes). If it belongs on a JIRA ticket, hand the user the text; they post it. Writing a `docs/` file or a Linear comment needs explicit *"post it"* / *"go ahead"* / *"yes"* first. Print-only output needs no approval.
 5. **Offer the management-talk handoff:** *"Want a leadership-flavored version? I can hand this to `management-talk`."* Don't do it automatically.
 
 ## Worked example — Tada hang in dumbModel (JIRA-12345)
@@ -151,5 +151,5 @@ What this post-mortem does that the management-talk version didn't:
 - **Never strip code identifiers** in the engineering record. They are the index. The leadership reframe is `management-talk`'s job, not yours.
 - **Blameless.** Describe gaps and bugs, never people.
 - **State validation coverage honestly.** If you only tested one config, say so. Implying broader coverage is the failure mode that breeds repeat regressions.
-- **Get sign-off before posting to JIRA.** Print-only output needs no approval. Never post to non-JIRA destinations from this skill.
+- **Never post to JIRA, Slack, email or any other channel yourself.** Print by default; a repo file or Linear comment only after explicit sign-off.
 - **One iteration is normal, three is a smell.** If the user is still revising on the third pass, ask what specific section is wrong — don't keep tweaking blindly.
